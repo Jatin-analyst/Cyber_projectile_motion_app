@@ -1,0 +1,13 @@
+{
+  "name": "projectile-motion-simulator",
+  "type": "module",
+  "scripts": {
+    "test": "vitest --run"
+  },
+  "devDependencies": {
+    "vitest": "latest",
+    "@vitest/coverage-v8": "latest",
+    "fast-check": "latest",
+    "jsdom": "latest"
+  }
+}
