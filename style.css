@@ -1,0 +1,561 @@
+/* ============================================================
+   style.css — Projectile Motion Simulator
+   Theme: Cyberpunk / HUD
+   ============================================================ */
+
+/* ── Google Fonts ─────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+/* ── CSS Custom Properties ────────────────────────────────── */
+:root {
+  --bg:           #0d0d0d;
+  --surface:      #1a1a2e;
+  --border:       #16213e;
+  --cyan:         #00f5ff;
+  --magenta:      #ff00ff;
+  --yellow:       #f5ff00;
+  --error-red:    #ff2d55;
+  --text:         #c0c0c0;
+  --text-dim:     #6a6a8a;
+  --font-heading: 'Orbitron', 'Share Tech Mono', monospace;
+  --font-body:    'Share Tech Mono', monospace;
+  --glow-cyan:    0 0 8px #00f5ff, 0 0 16px rgba(0, 245, 255, 0.3);
+  --glow-magenta: 0 0 8px #ff00ff, 0 0 16px rgba(255, 0, 255, 0.3);
+  --radius:       4px;
+  --gap:          1.25rem;
+}
+
+/* ── Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Utility ──────────────────────────────────────────────── */
+.hidden {
+  display: none !important;
+}
+
+/* ── Site Header ──────────────────────────────────────────── */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--cyan);
+  box-shadow: 0 2px 20px rgba(0, 245, 255, 0.15);
+  padding: 1rem var(--gap);
+}
+
+.header-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.site-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.1rem, 3vw, 1.8rem);
+  font-weight: 900;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-shadow: var(--glow-cyan);
+  text-align: center;
+  flex: 1;
+}
+
+.header-tag {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+/* ── Main Layout ──────────────────────────────────────────── */
+.main-layout {
+  flex: 1;
+  max-width: 1600px;
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--gap);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+/* ── Panel ────────────────────────────────────────────────── */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  position: relative;
+}
+
+.panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  opacity: 0.5;
+}
+
+/* ── Section Headings ─────────────────────────────────────── */
+.section-heading {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Formulas Section ─────────────────────────────────────── */
+#formulas-section h2 {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+#formulas-section .formula {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--yellow);
+  text-shadow: 0 0 6px rgba(245, 255, 0, 0.5);
+  margin: 0.5rem 0;
+  padding: 0.4rem 0.75rem;
+  border-left: 2px solid var(--yellow);
+  background: rgba(245, 255, 0, 0.04);
+}
+
+#formulas-section .formula sub,
+#formulas-section .formula sup {
+  font-size: 0.7em;
+}
+
+/* ── Projectile Entry Grid ────────────────────────────────── */
+#projectile-list {
+  display: grid;
+  gap: var(--gap);
+  /* Mobile: 1 column */
+  grid-template-columns: 1fr;
+}
+
+.projectile-entry {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  position: relative;
+}
+
+.projectile-entry::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--magenta), transparent);
+  opacity: 0.3;
+}
+
+.projectile-entry h3 {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--magenta);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 0 6px rgba(255, 0, 255, 0.4);
+}
+
+/* ── Field Groups ─────────────────────────────────────────── */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.field-group label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--cyan);
+  letter-spacing: 0.05em;
+}
+
+.field-group label sub,
+.field-group label sup {
+  font-size: 0.7em;
+}
+
+/* ── Inputs ───────────────────────────────────────────────── */
+input[type="number"],
+.entry-input {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--cyan);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  padding: 0.45rem 0.65rem;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type="number"]:focus,
+.entry-input:focus {
+  border-color: var(--cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+input[type="number"]::placeholder,
+.entry-input::placeholder {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+/* Input with error state */
+.entry-input.has-error {
+  border-color: var(--error-red);
+  box-shadow: 0 0 6px rgba(255, 45, 85, 0.4);
+}
+
+/* ── Field Errors ─────────────────────────────────────────── */
+.field-error {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  color: var(--error-red);
+  text-shadow: 0 0 4px rgba(255, 45, 85, 0.5);
+  letter-spacing: 0.03em;
+  margin-top: 0.1rem;
+}
+
+/* ── Buttons ──────────────────────────────────────────────── */
+.btn {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 0.55rem 1.2rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, opacity 0.2s;
+  outline: none;
+}
+
+/* Primary button — magenta */
+.btn-primary {
+  background: transparent;
+  color: var(--magenta);
+  border: 1px solid var(--magenta);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--magenta);
+  color: var(--bg);
+  box-shadow: var(--glow-magenta);
+}
+
+.btn-primary:focus-visible {
+  box-shadow: var(--glow-magenta);
+}
+
+/* Secondary button — cyan */
+.btn-secondary {
+  background: transparent;
+  color: var(--cyan);
+  border: 1px solid var(--cyan);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--cyan);
+  color: var(--bg);
+  box-shadow: var(--glow-cyan);
+}
+
+.btn-secondary:focus-visible {
+  box-shadow: var(--glow-cyan);
+}
+
+/* Large variant */
+.btn-large {
+  font-size: 0.85rem;
+  padding: 0.75rem 2.5rem;
+  letter-spacing: 0.2em;
+}
+
+/* Disabled state */
+.btn:disabled,
+button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Remove button — inline, small */
+.remove-btn {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  background: transparent;
+  color: var(--error-red);
+  border: 1px solid var(--error-red);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, opacity 0.2s;
+  margin-top: 0.5rem;
+}
+
+.remove-btn:hover:not(:disabled) {
+  background: var(--error-red);
+  color: var(--bg);
+  box-shadow: 0 0 8px rgba(255, 45, 85, 0.5);
+}
+
+.remove-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ── Input Actions Row ────────────────────────────────────── */
+.input-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.max-msg {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: var(--error-red);
+  letter-spacing: 0.05em;
+}
+
+/* ── Calculate Panel ──────────────────────────────────────── */
+.calculate-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+/* ── Results Layout ───────────────────────────────────────── */
+.results-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+/* ── Comparison Table ─────────────────────────────────────── */
+#comparison-table {
+  overflow-x: auto;
+}
+
+#comparison-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+}
+
+#comparison-table thead tr {
+  border-bottom: 1px solid var(--cyan);
+}
+
+#comparison-table th {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+#comparison-table td {
+  padding: 0.55rem 0.75rem;
+  color: var(--text);
+  border-bottom: 1px solid rgba(22, 33, 62, 0.8);
+}
+
+#comparison-table tbody tr:nth-child(odd) {
+  background: rgba(0, 245, 255, 0.03);
+}
+
+#comparison-table tbody tr:hover {
+  background: rgba(0, 245, 255, 0.07);
+}
+
+/* Result values — neon yellow */
+#comparison-table td:nth-child(2),
+#comparison-table td:nth-child(3) {
+  color: var(--yellow);
+  font-size: 0.9rem;
+  text-shadow: 0 0 4px rgba(245, 255, 0, 0.4);
+}
+
+/* ── Chart Section ────────────────────────────────────────── */
+.chart-panel {
+  min-height: 300px;
+}
+
+.canvas-wrapper {
+  position: relative;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem;
+}
+
+#trajectoryChart {
+  display: block;
+  width: 100% !important;
+  max-height: 400px;
+}
+
+/* ── Site Footer ──────────────────────────────────────────── */
+.site-footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 0.75rem var(--gap);
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================ */
+
+/* ── Tablet: 768px – 1279px ───────────────────────────────── */
+@media (min-width: 768px) {
+  #projectile-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .results-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .results-panel {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .chart-panel {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .site-title {
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  }
+}
+
+/* ── Desktop: 1280px+ ─────────────────────────────────────── */
+@media (min-width: 1280px) {
+  #projectile-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .main-layout {
+    padding: 1.5rem 2rem;
+  }
+
+  .results-layout {
+    align-items: stretch;
+  }
+
+  .results-panel {
+    flex: 0 0 420px;
+  }
+
+  .chart-panel {
+    flex: 1;
+  }
+
+  #trajectoryChart {
+    max-height: 500px;
+  }
+}
+
+/* ── Wide Desktop: 1920px ─────────────────────────────────── */
+@media (min-width: 1600px) {
+  .main-layout {
+    padding: 2rem 3rem;
+  }
+}
+
+/* ── Small Mobile: max 480px ──────────────────────────────── */
+@media (max-width: 480px) {
+  .header-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .header-tag {
+    display: none;
+  }
+
+  .btn-large {
+    width: 100%;
+    text-align: center;
+  }
+
+  .calculate-panel {
+    padding: 0.75rem;
+  }
+}
