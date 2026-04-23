@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Projectile Motion Simulator — an educational tool for students learning kinematics." />
+  <title>Projectile Motion Simulator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Chart.js CDN — graceful degradation if unavailable -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/chart.js"
+    onerror="window.__chartLoadFailed = true"
+  ></script>
+  <script>
+    // Set chartAvailable based on whether Chart.js loaded successfully
+    window.chartAvailable = typeof Chart !== 'undefined' && !window.__chartLoadFailed;
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="header-tag">// EDU-SIM v2.0</span>
+      <h1 class="site-title">Projectile Motion Simulator</h1>
+      <span class="header-tag">PHYSICS ENGINE ONLINE //</span>
+    </div>
+  </header>
+
+  <main class="main-layout">
+
+    <!-- Formulas section -->
+    <section id="formulas-section" class="panel" aria-label="Kinematic Formulas">
+      <!-- Populated by renderFormulas() -->
+    </section>
+
+    <!-- Projectile input panel -->
+    <section class="panel" aria-label="Projectile Inputs">
+      <h2 class="section-heading">Projectile Inputs</h2>
+      <div id="projectile-list">
+        <!-- Populated by renderProjectileList() -->
+      </div>
+      <div class="input-actions">
+        <button id="add-projectile-btn" class="btn btn-secondary" type="button">+ Add Projectile</button>
+        <p id="max-reached-msg" class="max-msg" hidden>Maximum of 10 projectiles reached.</p>
+      </div>
+    </section>
+
+    <!-- Calculate button -->
+    <section class="panel calculate-panel" aria-label="Run Simulation">
+      <button id="calculate-btn" class="btn btn-primary btn-large" type="button">&#9654; Calculate</button>
+    </section>
+
+    <!-- Results layout: table + chart side by side on desktop -->
+    <div class="results-layout">
+
+      <!-- Comparison table -->
+      <section class="panel results-panel" aria-label="Results">
+        <h2 class="section-heading">Results</h2>
+        <div id="comparison-table">
+          <!-- Populated by renderComparisonTable() -->
+        </div>
+      </section>
+
+      <!-- Trajectory chart -->
+      <section id="chart-section" class="panel chart-panel" aria-label="Trajectory Chart">
+        <h2 class="section-heading">Trajectory Chart</h2>
+        <div class="canvas-wrapper">
+          <canvas id="trajectoryChart" aria-label="Projectile trajectory chart" role="img"></canvas>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <span>// PROJECTILE MOTION SIMULATOR — EDUCATIONAL USE ONLY //</span>
+  </footer>
+
+  <script type="module">
+    import { renderFormulas, bindEvents } from './ui.js';
+    document.addEventListener('DOMContentLoaded', () => {
+      renderFormulas();
+      bindEvents();
+    });
+  </script>
+</body>
+</html>
